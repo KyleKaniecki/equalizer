@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python
 from IOManager import IOManager
 from LEDs.LEDManager import LEDManager
