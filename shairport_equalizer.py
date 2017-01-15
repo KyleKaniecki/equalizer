@@ -11,19 +11,7 @@ import time
 import math
 from Queue import Empty
 
-"""
-def play(song):
 
-    io = IOManager()
-    leds = LEDManager()
-
-    mean = np.array([12.0 for _ in range(8)], dtype='float32')
-    std = np.array([3.2 for _ in range(8)], dtype='float32')
-
-    frequency_limits = calculate_channel_frequency(20,15000)
-
-    print("Playing...")
-"""
 def calculate_levels(data, chunk, rate, limits):
     piff = list()
 
@@ -123,31 +111,6 @@ def wire():
             else:
                 update += 1
 
-
-            
-    """
-    try:
-        while True:
-            data = io.read()
-            io.write(data)
-            
-            if len(data):
-                matrix = calculate_levels(data,io.chunk,io.rate,frequency_limits)
-                brightness = matrix - mean + (std * 0.5)
-                brightness = brightness / (std * 1.25)
-                brightness = np.clip(brightness, 0.0, 1.0)
-                brightness = np.round(brightness, decimals=3)
-
-                for i in range(0,8):
-                    leds.fill(start=i*20,end=int((i*20+(brightness[i]*20))))
-                    leds.fill(color=(0,0,0),start=int(((i*20+(brightness[i]*20)))),end=-1)
-            
-    except KeyboardInterrupt:
-        pass
-
-    finally:
-        print("Thanks! :)")
-    """
 
 if __name__ == "__main__":
     wire()
