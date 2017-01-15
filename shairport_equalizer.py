@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env python
 from IOManager import IOManager
 from LEDs.LEDManager import LEDManager
@@ -151,4 +152,3 @@ def wire():
 
 if __name__ == "__main__":
     wire()
-

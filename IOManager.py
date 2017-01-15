@@ -6,8 +6,9 @@ import os
 from threading import Thread
 
 
-class IOManager():
 
+class IOManager():
+    
     def __init__(self,chunk=2048,rate=44100,aux_input=False,aux_output=True,fifo="/tmp/shairportpipe"):
         
         #self.p = pyaudio.PyAudio()
@@ -64,3 +65,4 @@ class IOManager():
         for line in iter(out.readline, b''):
             queue.put(line)
         out.close()
+

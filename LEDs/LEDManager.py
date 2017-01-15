@@ -28,4 +28,4 @@ class LEDManager():
 
         self.leds.fill(color,start,end)
         self.leds.update()
-
+        
