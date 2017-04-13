@@ -14,7 +14,7 @@ class LEDManager():
 
         # LED Variables
         self.color = (0,0,0)
-        self.driver = DriverLPD8806(160,c_order=ChannelOrder.RGB,use_py_spi=True,dev="/dev/spidev0.0",SPISpeed=16)
+        self.driver = DriverLPD8806(160,c_order=ChannelOrder.RGB,use_py_spi=True,dev="/dev/spidev0.0",SPISpeed=8)
         self.leds = led.LEDStrip(self.driver,threadedUpdate=True)
 
     def setColor(self,color):

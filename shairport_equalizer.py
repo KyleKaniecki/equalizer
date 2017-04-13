@@ -2,6 +2,10 @@
 from IOManager import IOManager
 from LEDs.LEDManager import LEDManager
 
+from bibliopixel import colors
+from bibliopixel.drivers.LPD8806 import *
+from bibliopixel import led
+
 import numpy as np
 import struct
 import sys
@@ -31,9 +35,9 @@ def calculate_levels(data, chunk, rate, limits):
     fourier.resize(len(fourier)-1)
     power = np.abs(fourier) ** 2
 
-    matrix = np.empty(8, dtype = "float32")
+    matrix = np.empty(20, dtype = "float32")
 
-    for pin in range(8):
+    for pin in range(20):
         matrix[pin] = sum(power[piff[pin][0]:piff[pin][1]])
     
     power = np.log10(matrix)
@@ -41,7 +45,7 @@ def calculate_levels(data, chunk, rate, limits):
     return power
 
 def calculate_channel_frequency(min_freq, max_freq):
-    channel_length = 8
+    channel_length = 20
     octaves = (np.log(max_freq/min_freq))/np.log(2)
     octaves_per_channel = octaves / channel_length
     frequency_limits = []
@@ -61,34 +65,48 @@ def calculate_channel_frequency(min_freq, max_freq):
 def wire():
 
     io = IOManager()
-    leds = LEDManager()
+    #leds = LEDManager()
+    driver = DriverLPD8806(160,c_order=ChannelOrder.RGB,use_py_spi=True,dev="/dev/spidev0.0",SPISpeed=16)
+    ledmatrix = led.LEDMatrix(driver,width=20,height=8,threadedUpdate=True,rotation=1,serpentine=False)
 
-    mean = np.array([11.0 for _ in range(8)], dtype='float32')
-    std = np.array([3.2 for _ in range(8)], dtype='float32')
+    
+    mean = np.array([11.0 for _ in range(20)], dtype='float32')
+    #std = np.array([3.2 for _ in range(20)], dtype='float32')
+    
+
+    #mean = np.array([11,11,11,11,11,11,11,11,6,6,6,6,6,3,3,3,3,3,3,3],dtype='float32')
+    std = np.array([1.2,1.2,1.2,1.2,1.2,1.2,1.2,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4],dtype='float32')
+
     frequency_limits = calculate_channel_frequency(20,15000)
 
     io.start_stream()
 
     update = 0
+    count = 0.0
 
     while True:
+        """
         try:
             streamout = io.output_queue.get_nowait().strip('\n\r')
         except Empty:
             pass
         else:
             print streamout
-
+        """
+        #This reads the data from the input stream 
         try:
             data = io.read()
+        #if we happen to get a OSError
         except OSError as err:
             if err.errno == errno.EAGAIN or err.errno == errno.EWOULDBLOCK:
                 print err
                 print err.errno
                 exit(0)
                 continue
+        #This writes the data out to the hardware audio out port
         try:
             io.write(data)
+        #Catch any exception that Python might throw
         except Exception as e:
             print "couldnt write"
             print e
@@ -103,13 +121,56 @@ def wire():
             brightness = np.clip(brightness, 0.0, 1.0)
             brightness = np.round(brightness, decimals=3)
 
-            if update >= 3:
-                for i in range(0,8):
-                    leds.fill(color=(0,0,255),start=i*20,end=int((i*20+(brightness[i]*20))))
-                    leds.fill(color=(0,0,0),start=int(((i*20+(brightness[i]*20)))),end=-1)
-                update = 0
-            else:
+            if update < 10:
                 update += 1
+            else:
+                update = 0
+
+            if int(count) >= int(255.0):
+                count = 0.0
+            else:
+                count += .25
+            
+            """
+            HORIZONTAL
+            leds.fill(color=colors.hue2rgb_rainbow(int(count)),start=update*20,end=int((update*20+(brightness[update]*20))))
+            leds.fill(color=(0,0,0),start=int(((update*20+(brightness[update]*20)))),end=(update* 20)+20)
+            """
+
+            ledmatrix.drawLine(x0=0,y0=int(update),x1=int(brightness[update]*7),y1=update,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update]*7),y0=update,x1=7,y1=update,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+1,x1=int(brightness[update+1]*8),y1=update+1,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+1]*8),y0=update+1,x1=8,y1=update+1,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+2,x1=int(brightness[update+2]*8),y1=update+2,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+2]*8),y0=update+2,x1=8,y1=update+2,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+3,x1=int(brightness[update+3]*7),y1=update+3,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+3]*8),y0=update+3,x1=8,y1=update+3,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+4,x1=int(brightness[update+4]*8),y1=update+4,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+4]*8),y0=update+4,x1=8,y1=update+4,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+5,x1=int(brightness[update+5]*8),y1=update+5,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+5]*8),y0=update+5,x1=8,y1=update+5,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+6,x1=int(brightness[update+6]*8),y1=update+6,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+6]*8),y0=update+6,x1=8,y1=update+6,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+7,x1=int(brightness[update+7]*8),y1=update+7,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+7]*8),y0=update+7,x1=8,y1=update+7,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+8,x1=int(brightness[update+8]*8),y1=update+8,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+8]*8),y0=update+8,x1=8,y1=update+8,color=(0,0,0))
+
+            ledmatrix.drawLine(x0=0,y0=update+9,x1=int(brightness[update+9]*8),y1=update+9,color=colors.hue2rgb_rainbow(int(count)))
+            ledmatrix.drawLine(x0=int(brightness[update+9]*8),y0=update+9,x1=8,y1=update+9,color=(0,0,0))
+
+            ledmatrix.update()
+            
+
+
 
 
 if __name__ == "__main__":
