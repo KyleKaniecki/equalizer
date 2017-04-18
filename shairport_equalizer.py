@@ -77,6 +77,7 @@ def wire():
     #mean = np.array([11,11,11,11,11,11,11,11,6,6,6,6,6,3,3,3,3,3,3,3],dtype='float32')
     std = np.array([1.2,1.2,1.2,1.2,1.2,1.2,1.2,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4,3.2,3.2,3.2,3.2,3.2],dtype='float32')
 
+
     frequency_limits = calculate_channel_frequency(20,15000)
 
     io.start_stream()
@@ -123,6 +124,7 @@ def wire():
 
             if update == 0:
                 update = 10
+
             else:
                 update = 0
 
@@ -136,7 +138,7 @@ def wire():
             leds.fill(color=colors.hue2rgb_rainbow(int(count)),start=update*20,end=int((update*20+(brightness[update]*20))))
             leds.fill(color=(0,0,0),start=int(((update*20+(brightness[update]*20)))),end=(update* 20)+20)
             """
-            
+
             ledmatrix.drawLine(x0=0,y0=int(update),x1=int(brightness[update]*7),y1=update,color=colors.hue2rgb_rainbow(int(count)))
             ledmatrix.drawLine(x0=int(brightness[update]*7),y0=update,x1=7,y1=update,color=(0,0,0))
 
@@ -168,9 +170,6 @@ def wire():
             ledmatrix.drawLine(x0=int(brightness[update+9]*8),y0=update+9,x1=8,y1=update+9,color=(0,0,0))
 
             ledmatrix.update()
-            
-            
-
 
 
 

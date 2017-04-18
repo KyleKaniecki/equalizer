@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import pyaudio
 import alsaaudio as aa
 from Queue import Queue
