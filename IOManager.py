@@ -25,12 +25,14 @@ class IOManager():
                 frames_per_buffer=self.chunk
                 )
         """
-
-        self.stream = aa.PCM(aa.PCM_PLAYBACK,aa.PCM_NORMAL)
+        #print aa.pcms()
+        self.stream = aa.PCM(aa.PCM_PLAYBACK,aa.PCM_NORMAL,card="hw:1")
+        self.mixer = aa.Mixer(control="PCM")
         self.stream.setchannels(2)
         self.stream.setformat(aa.PCM_FORMAT_S16_LE)
         self.stream.setperiodsize(self.chunk)
         self.stream.setrate(self.rate)
+        self.mixer.setvolume(100)
 
         self.output_queue = Queue()
 
