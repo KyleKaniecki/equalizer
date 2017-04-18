@@ -24,24 +24,12 @@ def wire():
 
     while True:
         #This reads the data from the input stream 
-        try:
-            data = io.read()
-        #if we happen to get a OSError
-        except OSError as err:
-            if err.errno == errno.EAGAIN or err.errno == errno.EWOULDBLOCK:
-                print err
-                print err.errno
-                exit(0)
-                continue
+        data = io.read()
+    
         #This writes the data out to the hardware audio out port
-        try:
-            io.write(data)
+        
+        io.write(data)
         #Catch any exception that Python might throw
-        except Exception as e:
-            print "couldnt write"
-            print e
-            time.sleep(1)
-            continue
 
         
         if len(data):
