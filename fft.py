@@ -11,7 +11,7 @@ class AudioProcessor():
         self.channel_length = channel_length
 
         self.mean = np.array([11.0 for _ in range(20)], dtype='float32')
-        self.std = np.array([1.2,1.2,1.2,1.2,1.2,1.2,1.2,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4,3.2,3.2,3.2,3.2,3.2],dtype='float32')
+        self.std = np.array([3.2,3.2,3.2,3.2,3.2,3.2,3.2,2.4,2.4,2.4,2.4,2.4,2.4,2.4,2.4,1.8,1.8,1.8,1.8,1.8],dtype='float32')
 
         self.frequency_limits = self.calculate_channel_frequency(min_freq,max_freq)
 
