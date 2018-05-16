@@ -20,7 +20,7 @@ On Ubuntu, install using `sudo apt install virtualenv`. It may already be instal
 Then to activate virtualenv, run `source <virtualenv_name>/bin/activate`. You should see a prompt
 similar to 
 
-`(cd-router-dna-tests) ➜  cd-router-dna-tests git:(master) ✗` in zsh. The important part
+`(equalizer) ➜  cd-router-dna-tests git:(master) ✗` in zsh. The important part
 is the part in the parentheses which specifies your current virtualenv.
 
 ### Install Libraries from requirements.txt
