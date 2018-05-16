@@ -2,7 +2,7 @@
 
 import fft
 from IOManager import IOManager
-from LEDs.LEDManager import LEDManager
+from leds.LEDManager import LEDManager
 
 from bibliopixel import colors
 from bibliopixel.drivers.LPD8806 import *
@@ -29,7 +29,6 @@ def wire():
         #This writes the data out to the hardware audio out port
         
         io.write(data)
-        #Catch any exception that Python might throw
 
         
         if len(data):

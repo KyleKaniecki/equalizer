@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/home/pi/new_shair.py
+ExecStart=./equalizer.py
 User=pi
 WorkingDirectory=/home/pi/equalizer/
 Restart=on-failure
