@@ -19,7 +19,7 @@ numpy==1.14.3
 pycparser==2.18
 pyserial==3.4
 python-dateutil==2.7.3
-PyYAML==3.12
+PyYAML==5.4
 requests==2.18.4
 six==1.11.0
 smmap2==2.0.3
