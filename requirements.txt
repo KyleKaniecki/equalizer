@@ -15,7 +15,7 @@ itsdangerous==0.24
 Jinja2==2.10
 loady==1.8.9
 MarkupSafe==1.0
-numpy==1.14.3
+numpy==1.22.0
 pycparser==2.18
 pyserial==3.4
 python-dateutil==2.7.3
